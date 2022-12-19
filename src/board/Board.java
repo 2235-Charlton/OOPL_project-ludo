@@ -1,9 +1,18 @@
 package board;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import path.Path;
+
 public class Board {
 	String[][] board = new String[25][48];
 	String[] letters= {"A","B","C","D","E","F","G","H","I","J","K"};
 	Integer x=0;
+	Integer[] posX = new Integer[40];
+	Integer[] posY = new Integer[40];
+	Map<Integer, Path> boardPath = new HashMap<Integer,Path>();
 	
 	public Board() { // Initializing the board
 		margins();
@@ -24,7 +33,20 @@ public class Board {
 		safe(7,22,'S');
 		safe(15,14,'S');
 		safe(11,38,'S');
-		safe(19,30,'S');		
+		safe(19,30,'S');
+	
+
+		mapPath();// generates the 
+		
+		
+		//test
+		
+//		for (Map.Entry<Integer, Path> test: boardPath.entrySet()) {
+//			safe(test.getValue().getxPos(), test.getValue().getyPos(),'p');	
+//		}
+		
+//		System.out.println(boardPath.get(39).getyPos());
+		
 	}
 	
 	private void home(Integer posX, Integer posY) { //generates the start/home box
@@ -100,20 +122,20 @@ public class Board {
 			}
 	}
 		
-	public void safe(Integer posX, Integer posY, Character legend){
+	private void safe(Integer posX, Integer posY, Character legend){
 		if (legend == 'B')
 			board[posX][posY] = "B";
 		else
 			board[posX][posY] = "S";
 	}
 	
-	public void end(Integer posX, Integer posY){
+	private void end(Integer posX, Integer posY){
 		board[posX][posY] = "E";
 		board[posX][posY+1] = "N";
 		board[posX][posY+2] = "D";
 	}
 	
-	public void PrintBoard() { //Prints the board
+	public void printBoard() { //Prints the board
 		for(Integer i=1; i<25; i++) {
 			for(Integer j=0; j<48; j++) {
 				System.out.print(board[i][j]);
@@ -121,8 +143,54 @@ public class Board {
 			System.out.println();
 		}
 	}
-		
-	public void update() {
-		
+	
+	private void pathGenRight(Integer x, Integer y, Integer i) {
+		this.posX[i]=x;
+		this.posY[i]=y+4;
 	}
+
+	private void pathGenLeft(Integer x, Integer y, Integer i) {
+		this.posX[i]=x;
+		this.posY[i]=y-4;
+	}
+	
+	private void pathGenDown(Integer x, Integer y, Integer i) {
+		this.posX[i]=x+2;
+		this.posY[i]=y;
+	}
+
+	private void pathGenUp(Integer x, Integer y, Integer i) {  
+		this.posX[i]=x-2;
+		this.posY[i]=y;
+	}
+	
+	private void playerOuterPath() { //generates the path excluding the final destination path
+		for (Integer i=0;i<40;i++) {
+			if(i==0) {
+				posX[i]=3;
+				posY[i]=20;
+			}else if(i<3 || (i>=7 && i<11) || (i>=33 && i<37)) 
+				pathGenRight(posX[i-1],posY[i-1],i);
+			else if(i<7 || (i>=11 && i<13) || (i>=17 && i<21)) 
+				pathGenDown(posX[i-1],posY[i-1],i);
+			else if(i<17 || (i>=21 && i<23) || (i>=27 && i<31)) 
+				pathGenLeft(posX[i-1],posY[i-1],i);
+			else 
+				pathGenUp(posX[i-1],posY[i-1],i);	
+		}
+	}
+	
+	private void mapPath() { //assigns x and y to a variable, ex pos 1= [3][20]
+		playerOuterPath();
+		for(int i=0; i<40;i++)
+			boardPath.put(i, new Path(posX[i],posY[i]));	
+	}
+	
+	public void update() {
+		//
+		printBoard();
+	}
+	
+	
+	
 }

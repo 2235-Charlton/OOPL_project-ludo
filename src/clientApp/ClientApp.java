@@ -7,7 +7,7 @@ public class ClientApp {
 	public static void main(String[] args) {
 		Board test= new Board();
 		
-		test.PrintBoard();
-		
+		test.printBoard();
+//		test.update();
 	}
 }
