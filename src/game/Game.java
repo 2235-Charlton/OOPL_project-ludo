@@ -2,6 +2,7 @@ package game;
 
 import java.util.Scanner;
 
+import board.Board;
 import dice.Dice;
 
 public class Game {
@@ -14,6 +15,8 @@ public class Game {
 			players = in.nextInt();
 		}
 		
+		Board board = new Board();
+		board.printBoard();
 		Dice dice = new Dice();
 		int value;
 
