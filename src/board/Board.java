@@ -45,6 +45,8 @@ public class Board {
 //			safe(test.getValue().getxPos(), test.getValue().getyPos(),'p');	
 //		}
 		
+		safe(boardPath.get(6).getxPos(),boardPath.get(6).getyPos(),'p');
+		
 //		System.out.println(boardPath.get(39).getyPos());
 		
 	}
@@ -125,6 +127,8 @@ public class Board {
 	private void safe(Integer posX, Integer posY, Character legend){
 		if (legend == 'B')
 			board[posX][posY] = "B";
+		else if (legend == 'p')
+			board[posX][posY] = "P";
 		else
 			board[posX][posY] = "S";
 	}
