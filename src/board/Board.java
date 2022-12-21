@@ -6,17 +6,18 @@ import java.util.Map;
 import path.Path;
 
 public class Board {
-	String[][] board = new String[25][48];
-	String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
-	Integer x = 0;
-	Integer[] posX = new Integer[73];
-	Integer[] posY = new Integer[73];
-	String[] blockName = {
+	private String[][] board = new String[25][48];
+	private String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
+	private Integer x = 0;
+	private Integer[] posX = new Integer[73];
+	private Integer[] posY = new Integer[73];
+	private String[] blockName = {
+			// home blocks
 			"B2", "C2", "B3", "C3",
 			"I2", "J2", "I3", "J3",
 			"B9", "C9", "B10", "C10",
 			"I9", "J9", "I10", "J10",
-
+			// rest of the blocks
 			"E1", "F1", "G1",
 			"E2", "F2", "G2",
 			"E3", "F3", "G3",
@@ -29,31 +30,32 @@ public class Board {
 			"E10", "F10", "G10",
 			"E11", "F11", "G11",
 	};
-	Map<String, Path> blocks = new HashMap<String, Path>();
+	private Map<String, Path> blocks = new HashMap<String, Path>();
 
 	public Board() { // Initializing the board
 		margins();
+		grid();
+		mapBoxes();
 		home(4, 7);
 		home(4, 35);
 		home(18, 7);
 		home(18, 35);
-		grid();
-		end(13, 24);
+
+		end("F6");
 
 		// starting point
-		safe(5, 30, 'B');
-		safe(11, 10, 'B');
-		safe(15, 42, 'B');
-		safe(21, 22, 'B');
+		safe("G2", 'B');
+		safe("B5", 'B');
+		safe("J7", 'B');
+		safe("E10", 'B');
 
 		// safe zones
-		safe(7, 22, 'S');
-		safe(15, 14, 'S');
-		safe(11, 38, 'S');
-		safe(19, 30, 'S');
+		safe("E3", 'S');
+		safe("I5", 'S');
+		safe("C7", 'S');
+		safe("G9", 'S');
 
 		// test
-		mapBoxes();
 		// safe(blocks.get("G11").getxPos(), blocks.get("G11").getyPos(), 'B');
 		// end test
 	}
@@ -125,14 +127,15 @@ public class Board {
 			}
 	}
 
-	private void safe(Integer posX, Integer posY, Character legend) {
-		if (legend == 'B')
-			board[posX][posY] = "B";
-		else
-			board[posX][posY] = "S";
+	private void safe(String location, Character legend) {
+		if (legend == 'B') // starting safe
+			board[blocks.get(location).getxPos()][blocks.get(location).getyPos() + 2] = "B";
+		else // stars
+			board[blocks.get(location).getxPos()][blocks.get(location).getyPos() + 2] = "S";
 	}
 
-	private void end(Integer posX, Integer posY) {
+	private void end(String end) {
+		Integer posX = blocks.get(end).getxPos(), posY = blocks.get(end).getyPos();
 		board[posX][posY] = "E";
 		board[posX][posY + 1] = "N";
 		board[posX][posY + 2] = "D";
@@ -230,6 +233,10 @@ public class Board {
 		for (int i = 0; i < blockName.length; i++) {
 			blocks.put(blockName[i], new Path(posX[i], posY[i]));
 		}
+	}
+
+	public Map<String, Path> getBlocks() {
+		return blocks;
 	}
 
 	public void update() {
