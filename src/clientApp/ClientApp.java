@@ -1,13 +1,11 @@
 package clientApp;
 
-import board.Board;
+import game.Game;
 
 public class ClientApp {
 
 	public static void main(String[] args) {
-		Board test= new Board();
-		
-		test.printBoard();
-//		test.update();
+		Game game = new Game();
+
 	}
 }
