@@ -8,7 +8,6 @@ public class ClientApp {
 	public static void main(String[] args) {
 		Board test= new Board();
 		
-		
 //		PlayerToken token = new PlayerToken("Red");
 //		System.out.println(token.getName()); // prints "Red"
 //		System.out.println(token.getPosition()); // prints 0
@@ -22,8 +21,9 @@ public class ClientApp {
 //
 //		
 		
-		test.PrintBoard();
-		
+
+		test.printBoard();
+//		test.update();
 	}
 }
 
