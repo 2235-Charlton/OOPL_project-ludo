@@ -250,7 +250,7 @@ public class Board {
 	}
 
 	public void update() {
-		//
+		
 		printBoard();
 	}
 }

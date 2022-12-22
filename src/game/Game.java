@@ -23,47 +23,54 @@ public class Game {
 
 		ArrayList<PlayerToken> player = new ArrayList<PlayerToken>();
 
-		for (int i = 0; i < players; i++){
+		for (int i = 0; i < players; i++) {
 			player.add(new PlayerToken(pathMap, i)); // assign home
 			player.get(i).setPlayerPath(order, i);// assign path
 		}
 
 		// board.printBoard();
 		Dice dice = new Dice();
-		int value, turn = 0;
+		int value = 0, turn = 0;
 
 		while (choice != 9) {
+			board.printBoard();
+			
 			System.out.println("Turn: player " + (turn + 1));
 
 			System.out.print("Press 1 to roll the dice \nPress 9 to exit.");
 			choice = in.nextInt();
-			
+
 			if (choice == 1) {
 				value = dice.rollDice();
 				System.out.println("Dice value: " + value);
 			} else if (choice == 9) {
 				System.out.println("Quitting...");
+				return;
 			} else
 				System.out.println("Incorrect Option.");
 
-		
-			board.printBoard();
-			Integer[][] position= {player.get(0).getPositions(),player.get(1).getPositions(),player.get(2).getPositions(),player.get(3).getPositions()};//needs imporvement
-			for (int i = 0; i < players; i++) {
-				System.out.print("Player "+(i+1)+"{");
+
+			for (int i = 0; i < players; i++) { // displaying the player location
+				Integer temp[] = player.get(i).getPositions();
+				System.out.print("Player " + (i + 1) + "{");
 				for (int j = 0; j < 4; j++) {
-					System.out.print(position[i][j]);
+					if (temp[j] == -1)
+						System.out.print(" " + pathMap[i + (j * 4)]);
+					else
+						System.out.print(" " + order[i][j]);
 				}
 				System.out.println(" }");
 			}
-			//rest of the logic goes here
+			System.out.println();
 
-			
-			if (turn == players - 1)
-				turn = 0;
-			else
-				turn++;
+			// rest of the logic goes here
 
+			if (value != 6) { // selecting the next player's turn
+				if (turn == players - 1)
+					turn = 0;
+				else
+					turn++;
+			}
 		}
 
 	}
