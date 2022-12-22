@@ -19,11 +19,14 @@ public class Game {
 
 		Board board = new Board();
 		String[] pathMap = board.getBlockNames();
+		String[][] order = board.getOrder();
 
 		ArrayList<PlayerToken> player = new ArrayList<PlayerToken>();
 
-		for (int i = 0; i < players; i++)
-			player.add(new PlayerToken(pathMap, i));
+		for (int i = 0; i < players; i++){
+			player.add(new PlayerToken(pathMap, i)); // assign home
+			player.get(i).setPlayerPath(order, i);// assign path
+		}
 
 		// board.printBoard();
 		Dice dice = new Dice();
@@ -43,6 +46,19 @@ public class Game {
 			} else
 				System.out.println("Incorrect Option.");
 
+		
+			board.printBoard();
+			Integer[][] position= {player.get(0).getPositions(),player.get(1).getPositions(),player.get(2).getPositions(),player.get(3).getPositions()};//needs imporvement
+			for (int i = 0; i < players; i++) {
+				System.out.print("Player "+(i+1)+"{");
+				for (int j = 0; j < 4; j++) {
+					System.out.print(position[i][j]);
+				}
+				System.out.println(" }");
+			}
+			//rest of the logic goes here
+
+			
 			if (turn == players - 1)
 				turn = 0;
 			else

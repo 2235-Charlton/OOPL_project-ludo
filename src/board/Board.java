@@ -245,7 +245,7 @@ public class Board {
 		return blockName;
 	}
 	
-	public String[][] order(){
+	public String[][] getOrder(){
 		return movementOrder;
 	}
 
