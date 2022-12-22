@@ -241,9 +241,10 @@ public class Board {
 		}
 	}
 
-	public Map<String, Path> getBlocks() {
-		return blocks;
+	public String[] getBlockNames() {
+		return blockName;
 	}
+	
 	public String[][] order(){
 		return movementOrder;
 	}

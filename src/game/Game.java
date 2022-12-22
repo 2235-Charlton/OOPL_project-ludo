@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import board.Board;
 import dice.Dice;
+import playerToken.PlayerToken;
 
 public class Game {
 	public Game() {
@@ -14,9 +15,23 @@ public class Game {
 			System.out.println("Enter the no. of players[2-4]:");
 			players = in.nextInt();
 		}
+
+		
 		
 		Board board = new Board();
-		board.printBoard();
+		String[] pathMap =  board.getBlockNames();
+		
+		PlayerToken player1 = new PlayerToken(pathMap,0);
+		PlayerToken player2 = new PlayerToken(pathMap,1);
+		
+		if(players<=4 && players>2){
+			PlayerToken player3 = new PlayerToken(pathMap,2);
+		}
+		if(players==4){
+			PlayerToken player4 = new PlayerToken(pathMap,3);
+		}
+		
+		// board.printBoard();
 		Dice dice = new Dice();
 		int value;
 
