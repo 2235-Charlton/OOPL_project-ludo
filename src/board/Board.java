@@ -32,10 +32,18 @@ public class Board {
 	};
 	private Map<String, Path> blocks = new HashMap<String, Path>();
 	private String movementOrder[][] = {
-		{"B6","C5","D5","E5","E4","E3","E2","E1","F1","G1","G2","G3","G4","G5","H5","I5","J5","K5","K6","K7","J7","I7","H7","G7","G8","G9","G10","G11","F11","E11","E10","E9","E8","E7","D7","C7","B7","A7","A6","B6","C6","D6","E6","F6"},
-		{"G2","G3","G4","G5","H5","I5","J5","K5","K6","K7","J7","I7","H7","G7","G8","G9","G10","G11","F11","E11","E10","E9","E8","E7","D7","C7","B7","A7","A6","A5","B5","C5","D5","E5","E4","E3","E2","E1","F1","F2","F3","F4","F5","F6"},
-		{"J7","I7","H7","G7","G8","G9","G10","G11","F11","E11","E10","E9","E8","E7","D7","C7","B7","A7","A6","A5","B5","C5","D5","E5","E4","E3","E2","E1","F1","G1","G2","G3","G4","G5","H5","I5","J5","K5","K6","J6","I6","H6","G6","F6"},
-		{"E10","E9","E8","E7","D7","C7","B7","A7","A6","A5","B5","C5","D5","E5","E4","E3","E2","E1","F1","G1","G2","G3","G4","G5","H5","I5","J5","K5","K6","K7","J7","I7","H7","G7","G8","G9","G10","G11","F11","F10","F9","F8","F7","F6"},
+			{ "B5", "C5", "D5", "E5", "E4", "E3", "E2", "E1", "F1", "G1", "G2", "G3", "G4", "G5", "H5", "I5", "J5",
+					"K5", "K6", "K7", "J7", "I7", "H7", "G7", "G8", "G9", "G10", "G11", "F11", "E11", "E10", "E9", "E8",
+					"E7", "D7", "C7", "B7", "A7", "A6", "B6", "C6", "D6", "E6", "F6" },
+			{ "G2", "G3", "G4", "G5", "H5", "I5", "J5", "K5", "K6", "K7", "J7", "I7", "H7", "G7", "G8", "G9", "G10",
+					"G11", "F11", "E11", "E10", "E9", "E8", "E7", "D7", "C7", "B7", "A7", "A6", "A5", "B5", "C5", "D5",
+					"E5", "E4", "E3", "E2", "E1", "F1", "F2", "F3", "F4", "F5", "F6" },
+			{ "J7", "I7", "H7", "G7", "G8", "G9", "G10", "G11", "F11", "E11", "E10", "E9", "E8", "E7", "D7", "C7", "B7",
+					"A7", "A6", "A5", "B5", "C5", "D5", "E5", "E4", "E3", "E2", "E1", "F1", "G1", "G2", "G3", "G4",
+					"G5", "H5", "I5", "J5", "K5", "K6", "J6", "I6", "H6", "G6", "F6" },
+			{ "E10", "E9", "E8", "E7", "D7", "C7", "B7", "A7", "A6", "A5", "B5", "C5", "D5", "E5", "E4", "E3", "E2",
+					"E1", "F1", "G1", "G2", "G3", "G4", "G5", "H5", "I5", "J5", "K5", "K6", "K7", "J7", "I7", "H7",
+					"G7", "G8", "G9", "G10", "G11", "F11", "F10", "F9", "F8", "F7", "F6" },
 	};
 
 	public Board() { // Initializing the board
@@ -244,13 +252,30 @@ public class Board {
 	public String[] getBlockNames() {
 		return blockName;
 	}
-	
-	public String[][] getOrder(){
+
+	public String[][] getOrder() {
 		return movementOrder;
 	}
 
-	public void update() {
+	public void update(String location,String oldLocation, Integer player) {
+		String c;
+		if (player == 0)
+			c = "C";
+		else if (player == 1)
+			c = "M";
+		else if (player == 2)
+			c = "Y";
+		else
+			c = "K";
+
+		board[blocks.get(oldLocation).getxPos()][blocks.get(oldLocation).getyPos()] = " ";
+		if(location == "F6"){
+			//do not update display location
+		}
+		else
+			board[blocks.get(location).getxPos()][blocks.get(location).getyPos()] = c;
 		
-		printBoard();
+
+		// printBoard();
 	}
 }

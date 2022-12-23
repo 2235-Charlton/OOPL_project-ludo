@@ -33,6 +33,31 @@ public class Game {
 		int value = 0, turn = 0;
 
 		while (choice != 9) {
+			// board.printBoard();
+
+			for (int i = 0; i < players; i++) {
+				Integer temp[] = player.get(i).getPositions();
+				Integer prevPos[] = player.get(i).getPrevPositions();
+				for (int j = 0; j < 4; j++) {
+					if (temp[j] == -1) { // position when the token/pieces are at home
+						if (prevPos[j] != -1)
+							board.update(pathMap[j + (i * 4)], pathMap[prevPos[j]], i);
+						else if (prevPos[i] == -1)
+							board.update(pathMap[j + (i * 4)], pathMap[j + (i * 4)], i);
+						// else
+						// 	board.update(order[i][temp[j]], (order[i][prevPos[j]]), i);
+					} 
+					else { // pieces are on the move
+						if (prevPos[j] != -1)
+							board.update(order[i][temp[j]], (order[i][prevPos[j]]), i);
+						else if (prevPos[j] == -1)
+							board.update(order[i][temp[j]], pathMap[j + (i * 4)], i);
+						else
+							board.update(order[i][temp[j]], pathMap[prevPos[j] + (i * 4)], i);
+					}
+				}
+			}
+
 			board.printBoard();
 
 			showPosition(player, players, pathMap, order);
@@ -66,13 +91,26 @@ public class Game {
 
 				if (hasMovable) {
 					Integer token = in.nextInt();
-					while (token<=0 || token>4 || !movable[token-1]) {
+					while (token <= 0 || token > 4 || !movable[token - 1]) {
 						System.out.println("Invalid selection!");
 						token = in.nextInt();
 					}
-					player.get(turn).setPosition((token-1), value);
+					player.get(turn).setPosition((token - 1), value);
 				}
 
+				// board.update(, turn);
+
+				// for (int i = 0; i < players; i++) { // displaying the player location
+				// // for (int j = 0; j < 4; j++) {
+				// temp
+				// if (temp[j] == -1) // position when the token/pieces are at home
+				// board.update(pathMap[j + (i * 4)], turn);
+				// else{ // pieces are on the move
+				// board.update(order[i][temp[j]], turn);
+				// }
+				// // }
+				// System.out.println(" }");
+				// }
 
 			} else if (choice == 9) {
 				System.out.println("Quitting...");
@@ -80,7 +118,31 @@ public class Game {
 			} else
 				System.out.println("Incorrect Option.");
 
-			// rest of the logic goes here
+			// update tokens
+			// for (int i = 0; i < players; i++) {
+			// 	Integer temp[] = player.get(i).getPositions();
+			// 	Integer prevPos[] = player.get(i).getPrevPositions();
+			// 	for (int j = 0; j < 4; j++) {
+			// 		if (temp[j] == -1) { // position when the token/pieces are at home
+			// 			if (prevPos[j] != -1)
+			// 				board.update(pathMap[j + (i * 4)], pathMap[prevPos[j]], i);
+			// 			else if (prevPos[i] == -1)
+			// 				board.update(pathMap[j + (i * 4)], pathMap[j + (i * 4)], i);
+			// 			// else
+			// 			// 	board.update(order[i][temp[j]], (order[i][prevPos[j]]), i);
+			// 		} 
+			// 		else { // pieces are on the move
+			// 			if (prevPos[j] != -1)
+			// 				board.update(order[i][temp[j]], (order[i][prevPos[j]]), i);
+			// 			else if (prevPos[j] == -1)
+			// 				board.update(order[i][temp[j]], pathMap[j + (i * 4)], i);
+			// 			else
+			// 				board.update(order[i][temp[j]], pathMap[prevPos[j] + (i * 4)], i);
+			// 		}
+			// 	}
+			// }
+
+			// pending: kill logic
 
 			if (value != 6) { // selecting the next player's turn
 				if (turn == players - 1)
@@ -99,8 +161,9 @@ public class Game {
 			for (int j = 0; j < 4; j++) {
 				if (temp[j] == -1) // position when the token/pieces are at home
 					System.out.print(" " + pathMap[j + (i * 4)]);
-				else // pieces are on the move
+				else { // pieces are on the move
 					System.out.print(" " + order[i][temp[j]]);
+				}
 			}
 			System.out.println(" }");
 		}
